@@ -1,6 +1,12 @@
+import sys
+from . import Book
+
+
 class ConsoleInterface:
-    @staticmethod
-    def main_menu():
+    def __init__(self, source):
+        self.library = source
+
+    def main_menu(self):
         print('Добро пожаловать в ИС "Электронная библиотека"')
         print('Выберете нужное действие')
         print('1. Показать все книги')
@@ -8,36 +14,62 @@ class ConsoleInterface:
         print('3. Поиск книг')
         print('4. Удалить книгу')
         print('0. Выйти')
+        self.process_main_menu()
 
-    @staticmethod
-    def process_main_menu():
+    def process_main_menu(self):
         action = input('>>> ')
-        print(action)
+        match action: #Условие, вроде если
+            case '1':
+                self.show_books()
+            case '2':
+                self.add_book()
+            case '3':
+                self.search_book()
+            case '4':
+                self.delite_book()
+            case '0':
+                sys.exit()
+            case _:
+                print('Выберете нужный пункт меню')
 
-    @staticmethod
-    def show_books(books):
+    def show_books(self):
+        books = self.library.get_books()
         for id_, book in books.items():
             print(f'{id_}.{book.get_info()}')
+        self.footer_menu()
 
-    @staticmethod
-    def add_book():
+    def add_book(self):
         author = input('Введите автора: ')
         title = input('Введите название: ')
         year = input('Введите год: ')
         genre = input('Введите жанр: ')
+        try:
+            book = Book(author=author, title=title, year=year, genre=genre)
+            self.library.add_book(book)
+            print('Книга успешно добавлена')
+        except ValueError as err:
+            print(err)
+            self.add_book()
+        self.footer_menu()
 
-        return {
-            'author': author,
-            'title': title,
-            'year': year,
-            'genre': genre
-        }
 
     def search_book(self):
-        pass
+        print('Поиск книги')
+        self.footer_menu()
 
     def delite_book(self):
-        pass
+        print('Удаление книги')
+        self.footer_menu()
 
-    def exit(self):
-        pass
+    def footer_menu(self):
+        print('Введите 1 для возврата в главное меню')
+        print('Введите 0 для выхода из программа')
+        action = input('>>> ')
+        match action:
+            case '1':
+                self.main_menu()
+            case '0':
+                sys.exit()
+            case _:
+                print('Выберете необходимое действие')
+                self.footer_menu()

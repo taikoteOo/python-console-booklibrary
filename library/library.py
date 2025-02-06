@@ -3,13 +3,15 @@ from . import Book
 
 class Library:
     id_ = 0
-    def __init__(self):
+    def __init__(self, storage):
         self.books = {}
+        self.storage = storage
 
     def add_book(self, book):
         if isinstance(book, Book):
             Library.id_ += 1
             self.books[Library.id_] = book
+            self.storage.write_data(book.to_dict())
 
     def get_book_info(self, book_id):
         return self.books.get(book_id)
@@ -26,7 +28,7 @@ class Library:
         """
         results = {}
         for id_, book in self.books.items():
-            if query.lower() in book.autor.lower():
+            if query.lower() in book.author.lower():
                 results[id_] = book
             elif query.lower() in book.title.lower():
                 results[id_] = book

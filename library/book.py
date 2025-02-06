@@ -4,7 +4,7 @@ from core.enums import GENRES
 
 
 class Book:
-    def __init__(self, title, autor, year, genre):
+    def __init__(self, title, author, year, genre):
         """
         Конструктор класса Book
         :param title: Название книги
@@ -14,7 +14,7 @@ class Book:
         :param isbn: ISBN книги (по умолчанию None)
         """
         self.title = title
-        self.autor = autor
+        self.author = author
         self.genre = genre
         self.year = year
         self.__isbn = uuid.uuid4().hex[:9]
@@ -24,7 +24,7 @@ class Book:
         Возвращает строку с информацией о книге
         :return: Строка с информацией о книге
         """
-        info = f'{self.title} - {self.autor} ({self._year})'
+        info = f'{self.title} - {self.author} ({self._year})'
         if self.genre:
             info += f', Жанр: {self.genre}'
         info += f', ISBN: {self.__isbn}'
@@ -34,16 +34,16 @@ class Book:
     @staticmethod
     def is_valid_year(year):
         if isinstance(year, int):
-            if datetime.today().year < year < 1445:
-                return False
-            else:
+            if 1445 < year <= datetime.today().year:
                 return True
+            else:
+                return False
         elif isinstance(year, str):
             if year.isdigit():
-                if datetime.today().year < int(year) < 1445:
-                    return False
-                else:
+                if 1445 < int(year) <= datetime.today().year:
                     return True
+                else:
+                    return False
             else:
                 return False
         else:
@@ -85,3 +85,13 @@ class Book:
     def get_book_age(self):
         current_year = datetime.today().year
         return current_year - self._year
+
+    def to_dict(self):
+        data = {
+            'author': self.author,
+            'title': self.author,
+            'year': self.year,
+            'genre': self.genre,
+            'ISBN': self.__isbn
+        }
+        return data
