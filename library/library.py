@@ -38,7 +38,10 @@ class Library:
 
     def get_books(self):
         books = self.storage.read_data()
-        return books
+        books_obj = []
+        for book in books:
+            books_obj.append(Book.from_dict(book))
+        return books_obj
 
     def get_books_by_author(self, author):
         books = {}

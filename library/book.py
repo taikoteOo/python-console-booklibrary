@@ -97,3 +97,23 @@ class Book:
             'ISBN': self.__isbn
         }
         return data
+
+    @property
+    def isbn(self):
+        return self.__isbn
+
+    @isbn.setter
+    def isbn(self, isbn):
+        self.__isbn= isbn
+
+    @classmethod
+    def from_dict(cls, book_data):
+        book = Book(
+            author =book_data['author'],
+            title=book_data['title'],
+            year=book_data['year'],
+            genre=book_data['genre'],
+        )
+        book.isbn = book_data['ISBN']
+        book.id = book_data['id']
+        return book
