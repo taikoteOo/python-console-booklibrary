@@ -18,6 +18,7 @@ class Book:
         self.genre = genre
         self.year = year
         self.__isbn = uuid.uuid4().hex[:9]
+        self.id = None
 
     def get_info(self):
         """
@@ -88,6 +89,7 @@ class Book:
 
     def to_dict(self):
         data = {
+            'id': self.id,
             'author': self.author,
             'title': self.author,
             'year': self.year,
