@@ -104,7 +104,7 @@ class Book:
 
     @isbn.setter
     def isbn(self, isbn):
-        self.__isbn= isbn
+        self.__isbn = isbn
 
     @classmethod
     def from_dict(cls, book_data):
