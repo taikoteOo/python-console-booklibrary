@@ -4,7 +4,7 @@ from . import Book
 class Library:
     def __init__(self, storage):
         self.storage = storage
-        self.books = storage
+        self.books = {}
         self.last_id = None
 
     def _get_last_id_book(self):
@@ -113,7 +113,8 @@ class Library:
 
 
     def get_book_count(self):
-        pass
+        count = self.storage.count_books()
+        return count
 
     def check_book(self, isbn):
         books = self.storage.read_data()
@@ -121,3 +122,6 @@ class Library:
             if item['ISBN'].lower() == isbn.lower():
                 return item['ISBN']
         return None
+
+    def dump_books_data(self, filename):
+        self.storage.dump_books_to_json(filename)
