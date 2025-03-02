@@ -25,10 +25,12 @@ class Library:
         raise ValueError('Неверный формат книги!')
 
     def get_book_by_id(self, book_id):
-        book = self.books.get(book_id)
-        if book:
-            return book
-        raise ValueError('Такой книги нет')
+        results = []
+        books = self.storage.read_data()
+        for item in books:
+            if book_id.lower() == item['id'].lower():
+                results.append(Book.from_dict(item))
+        return results
 
     def get_book_by_isbn(self, isbn):
         results = []
